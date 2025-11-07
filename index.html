@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Sounds - Interactive Experience</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <header class="glass-header">
+        <div class="logo">
+            <span class="logo-icon">🎵</span>
+            <h1>Animal Sounds</h1>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search animals..." class="glass-input">
+            <span class="search-icon">🔍</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats-bar glass">
+            <div class="stat-item">
+                <span class="stat-number" id="totalAnimals">102</span>
+                <span class="stat-label">Animals</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="playCount">0</span>
+                <span class="stat-label">Sounds Played</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="favoriteCount">0</span>
+                <span class="stat-label">Favorites</span>
+            </div>
+        </div>
+
+        <div class="filter-tabs glass">
+            <button class="tab-btn active" data-category="all">All</button>
+            <button class="tab-btn" data-category="farm">Farm</button>
+            <button class="tab-btn" data-category="wild">Wild</button>
+            <button class="tab-btn" data-category="birds">Birds</button>
+            <button class="tab-btn" data-category="aquatic">Aquatic</button>
+            <button class="tab-btn" data-category="insects">Insects</button>
+            <button class="tab-btn" data-category="pets">Pets</button>
+        </div>
+
+        <div id="animalGrid" class="animal-grid"></div>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content glass">
+            <button class="close-btn">&times;</button>
+            <div class="modal-body">
+                <div class="animal-icon-large" id="modalIcon"></div>
+                <h2 id="modalName"></h2>
+                <p id="modalSound"></p>
+                <button class="play-btn-large" id="modalPlayBtn">
+                    <span class="play-icon">▶</span>
+                    Play Sound
+                </button>
+                <div class="animal-info" id="modalInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
