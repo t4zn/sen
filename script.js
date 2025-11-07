@@ -120,7 +120,6 @@ let playCount = 0;
 let favorites = new Set();
 let currentCategory = 'all';
 let searchQuery = '';
-let currentAudio = null;
 let currentButton = null;
 
 // Initialize the app
@@ -220,8 +219,98 @@ const soundPatterns = {
     'Fox': { type: 'yip', freq: [400, 1000], duration: 0.8, pattern: 'yip' },
     'Elephant': { type: 'trumpet', freq: [100, 2000], duration: 3.0, pattern: 'trumpet' },
     'Monkey': { type: 'chatter', freq: [500, 2000], duration: 1.5, pattern: 'chatter' },
+    'Gorilla': { type: 'grunt', freq: [100, 300], duration: 1.2, pattern: 'grunt' },
+    'Zebra': { type: 'bray', freq: [250, 700], duration: 2.0, pattern: 'bray' },
+    'Giraffe': { type: 'hum', freq: [80, 200], duration: 2.5, pattern: 'hum' },
+    'Rhino': { type: 'snort', freq: [120, 400], duration: 1.0, pattern: 'snort' },
+    'Hippo': { type: 'grunt', freq: [90, 250], duration: 1.8, pattern: 'grunt' },
+    'Deer': { type: 'bleat', freq: [300, 600], duration: 1.0, pattern: 'bleat' },
+    'Camel': { type: 'grunt', freq: [150, 350], duration: 1.5, pattern: 'grunt' },
+    'Kangaroo': { type: 'chortle', freq: [200, 500], duration: 1.2, pattern: 'chortle' },
+    'Koala': { type: 'grunt', freq: [180, 400], duration: 1.0, pattern: 'grunt' },
+    'Panda': { type: 'bleat', freq: [200, 450], duration: 1.3, pattern: 'bleat' },
+    'Sloth': { type: 'whistle', freq: [800, 1200], duration: 2.0, pattern: 'whistle' },
+    'Raccoon': { type: 'chitter', freq: [400, 800], duration: 1.0, pattern: 'chitter' },
+    'Skunk': { type: 'hiss', freq: [2000, 4000], duration: 1.5, pattern: 'hiss' },
+    'Cheetah': { type: 'chirp', freq: [800, 1500], duration: 0.8, pattern: 'chirp' },
+    'Leopard': { type: 'growl', freq: [90, 300], duration: 2.0, pattern: 'growl' },
+    'Jaguar': { type: 'roar', freq: [80, 400], duration: 2.5, pattern: 'roar' },
+    'Hyena': { type: 'laugh', freq: [300, 1000], duration: 2.0, pattern: 'laugh' },
+    'Bat': { type: 'screech', freq: [3000, 8000], duration: 0.5, pattern: 'screech' },
+    'Squirrel': { type: 'chatter', freq: [800, 2000], duration: 1.0, pattern: 'chatter' },
+    'Chipmunk': { type: 'chip', freq: [1000, 2500], duration: 0.6, pattern: 'chip' },
+    'Beaver': { type: 'grunt', freq: [200, 400], duration: 1.0, pattern: 'grunt' },
+    'Moose': { type: 'bellow', freq: [100, 500], duration: 3.0, pattern: 'bellow' },
+    'Bison': { type: 'grunt', freq: [120, 300], duration: 1.5, pattern: 'grunt' },
+    'Llama': { type: 'hum', freq: [150, 400], duration: 1.8, pattern: 'hum' },
+    'Armadillo': { type: 'grunt', freq: [200, 350], duration: 0.8, pattern: 'grunt' },
+    'Porcupine': { type: 'grunt', freq: [180, 400], duration: 1.0, pattern: 'grunt' },
+    'Badger': { type: 'growl', freq: [150, 400], duration: 1.5, pattern: 'growl' },
+    'Weasel': { type: 'squeak', freq: [800, 1500], duration: 0.5, pattern: 'squeak' },
+    'Meerkat': { type: 'bark', freq: [400, 1000], duration: 0.6, pattern: 'bark' },
+    
+    // Birds
+    'Eagle': { type: 'screech', freq: [1000, 3000], duration: 2.0, pattern: 'screech' },
+    'Owl': { type: 'hoot', freq: [200, 600], duration: 1.5, pattern: 'hoot' },
+    'Parrot': { type: 'squawk', freq: [500, 2000], duration: 1.0, pattern: 'squawk' },
+    'Peacock': { type: 'scream', freq: [800, 2500], duration: 2.5, pattern: 'scream' },
+    'Flamingo': { type: 'honk', freq: [300, 800], duration: 1.2, pattern: 'honk' },
+    'Penguin': { type: 'bray', freq: [200, 600], duration: 1.5, pattern: 'bray' },
+    'Swan': { type: 'trumpet', freq: [400, 1200], duration: 2.0, pattern: 'trumpet' },
+    'Dove': { type: 'coo', freq: [300, 800], duration: 1.8, pattern: 'coo' },
+    'Crow': { type: 'caw', freq: [400, 1000], duration: 1.0, pattern: 'caw' },
+    'Woodpecker': { type: 'tap', freq: [1000, 3000], duration: 1.5, pattern: 'tap' },
+    'Hummingbird': { type: 'chirp', freq: [2000, 5000], duration: 0.3, pattern: 'chirp' },
+    'Seagull': { type: 'squawk', freq: [600, 1500], duration: 1.2, pattern: 'squawk' },
+    'Canary': { type: 'sing', freq: [1000, 3000], duration: 2.0, pattern: 'sing' },
+    'Sparrow': { type: 'chirp', freq: [800, 2000], duration: 0.8, pattern: 'chirp' },
+    'Robin': { type: 'chirp', freq: [1200, 2500], duration: 1.0, pattern: 'chirp' },
+    'Emu': { type: 'boom', freq: [50, 200], duration: 2.0, pattern: 'boom' },
+    'Ostrich': { type: 'boom', freq: [60, 250], duration: 2.5, pattern: 'boom' },
+    
+    // Aquatic Animals
+    'Dolphin': { type: 'click', freq: [2000, 8000], duration: 1.0, pattern: 'click' },
+    'Whale': { type: 'song', freq: [20, 2000], duration: 5.0, pattern: 'song' },
+    'Shark': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Octopus': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Fish': { type: 'bubble', freq: [200, 800], duration: 0.8, pattern: 'bubble' },
+    'Seal': { type: 'bark', freq: [300, 1000], duration: 1.2, pattern: 'bark' },
+    'Otter': { type: 'chirp', freq: [800, 2000], duration: 1.0, pattern: 'chirp' },
+    'Crab': { type: 'click', freq: [1000, 3000], duration: 0.5, pattern: 'click' },
+    'Lobster': { type: 'click', freq: [800, 2000], duration: 0.6, pattern: 'click' },
+    'Shrimp': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Jellyfish': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Turtle': { type: 'hiss', freq: [1000, 3000], duration: 1.0, pattern: 'hiss' },
+    'Frog': { type: 'ribbit', freq: [200, 1000], duration: 1.2, pattern: 'ribbit' },
+    'Crocodile': { type: 'hiss', freq: [500, 2000], duration: 2.0, pattern: 'hiss' },
+    
+    // Insects
+    'Bee': { type: 'buzz', freq: [200, 400], duration: 2.0, pattern: 'buzz' },
+    'Butterfly': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Ant': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Ladybug': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Spider': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Mosquito': { type: 'whine', freq: [400, 800], duration: 1.5, pattern: 'whine' },
+    'Fly': { type: 'buzz', freq: [150, 300], duration: 1.0, pattern: 'buzz' },
+    'Cricket': { type: 'chirp', freq: [3000, 5000], duration: 2.0, pattern: 'cricket' },
+    'Grasshopper': { type: 'chirp', freq: [2000, 4000], duration: 1.5, pattern: 'cricket' },
+    'Dragonfly': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Beetle': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Moth': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    'Wasp': { type: 'buzz', freq: [250, 500], duration: 1.2, pattern: 'buzz' },
+    'Firefly': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    
+    // Pets
     'Dog': { type: 'bark', freq: [200, 1000], duration: 0.8, pattern: 'bark' },
     'Cat': { type: 'meow', freq: [300, 2000], duration: 1.0, pattern: 'meow' },
+    'Rabbit': { type: 'squeak', freq: [800, 1500], duration: 0.5, pattern: 'squeak' },
+    'Hamster': { type: 'squeak', freq: [1000, 2000], duration: 0.4, pattern: 'squeak' },
+    'Guinea Pig': { type: 'wheek', freq: [800, 2000], duration: 1.0, pattern: 'wheek' },
+    'Mouse': { type: 'squeak', freq: [1500, 3000], duration: 0.3, pattern: 'squeak' },
+    'Rat': { type: 'squeak', freq: [1200, 2500], duration: 0.4, pattern: 'squeak' },
+    'Ferret': { type: 'dook', freq: [400, 1000], duration: 0.8, pattern: 'dook' },
+    'Hedgehog': { type: 'snuffle', freq: [200, 800], duration: 1.0, pattern: 'snuffle' },
+    'Goldfish': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
     
     // Default pattern for unlisted animals
     'default': { type: 'tone', freq: [300, 600], duration: 1.0, pattern: 'sound' }
@@ -306,6 +395,33 @@ function generateAnimalSound(animalName) {
             break;
         case 'quack':
             generateQuackSound(audioContext, pattern);
+            break;
+        case 'buzz':
+            generateBuzzSound(audioContext, pattern);
+            break;
+        case 'chirp':
+            generateChirpSound(audioContext, pattern);
+            break;
+        case 'hiss':
+            generateHissSound(audioContext, pattern);
+            break;
+        case 'cricket':
+            generateCricketSound(audioContext, pattern);
+            break;
+        case 'ribbit':
+            generateRibbitSound(audioContext, pattern);
+            break;
+        case 'hoot':
+            generateHootSound(audioContext, pattern);
+            break;
+        case 'squeak':
+            generateSqueakSound(audioContext, pattern);
+            break;
+        case 'click':
+            generateClickSound(audioContext, pattern);
+            break;
+        case 'silent':
+            generateSilentSound(audioContext, pattern);
             break;
         default:
             generateGenericSound(audioContext, pattern);
@@ -668,3 +784,247 @@ function updateStats() {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', init);
+
+// Additional sound generators
+function generateBuzzSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.1);
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration * 0.2);
+    
+    // Add vibrato for realistic buzz
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+    lfo.frequency.setValueAtTime(30, ctx.currentTime);
+    lfoGain.gain.setValueAtTime(20, ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime + pattern.duration * 0.9);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    lfo.start(ctx.currentTime);
+    lfo.stop(ctx.currentTime + pattern.duration);
+    
+    currentOscillators.push(osc, lfo);
+}
+
+function generateChirpSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(pattern.freq[1], ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateHissSound(ctx, pattern) {
+    const noise = ctx.createBufferSource();
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * pattern.duration, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    
+    for (let i = 0; i < data.length; i++) {
+        data[i] = Math.random() * 2 - 1;
+    }
+    noise.buffer = buffer;
+    
+    const filter = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    
+    filter.type = 'highpass';
+    filter.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    filter.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    noise.start(ctx.currentTime);
+    noise.stop(ctx.currentTime + pattern.duration);
+}
+
+function generateCricketSound(ctx, pattern) {
+    // Create rapid chirping pattern
+    const chirpCount = 8;
+    const chirpDuration = 0.05;
+    const pauseDuration = 0.1;
+    
+    for (let i = 0; i < chirpCount; i++) {
+        const startTime = ctx.currentTime + i * (chirpDuration + pauseDuration);
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(pattern.freq[0], startTime);
+        osc.frequency.linearRampToValueAtTime(pattern.freq[1], startTime + chirpDuration);
+        
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.2, startTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + chirpDuration);
+        
+        osc.start(startTime);
+        osc.stop(startTime + chirpDuration);
+        currentOscillators.push(osc);
+    }
+}
+
+function generateRibbitSound(ctx, pattern) {
+    // Create two-part ribbit sound
+    const osc1 = ctx.createOscillator();
+    const osc2 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    const gain2 = ctx.createGain();
+    
+    osc1.connect(gain1);
+    osc2.connect(gain2);
+    gain1.connect(ctx.destination);
+    gain2.connect(ctx.destination);
+    
+    // First part: "rib"
+    osc1.type = 'square';
+    osc1.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc1.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + 0.2);
+    
+    gain1.gain.setValueAtTime(0, ctx.currentTime);
+    gain1.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
+    gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    
+    // Second part: "bit"
+    osc2.type = 'square';
+    osc2.frequency.setValueAtTime(pattern.freq[1], ctx.currentTime + 0.4);
+    osc2.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    gain2.gain.setValueAtTime(0, ctx.currentTime + 0.4);
+    gain2.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.45);
+    gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc1.start(ctx.currentTime);
+    osc1.stop(ctx.currentTime + 0.3);
+    osc2.start(ctx.currentTime + 0.4);
+    osc2.stop(ctx.currentTime + pattern.duration);
+    
+    currentOscillators.push(osc1, osc2);
+}
+
+function generateHootSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(800, ctx.currentTime);
+    
+    // Create "hoo-hoo" pattern
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.1);
+    gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + pattern.duration * 0.4);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + pattern.duration * 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateSqueakSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(pattern.freq[1], ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateClickSound(ctx, pattern) {
+    // Create rapid clicking pattern
+    const clickCount = 5;
+    const clickDuration = 0.02;
+    const pauseDuration = 0.05;
+    
+    for (let i = 0; i < clickCount; i++) {
+        const startTime = ctx.currentTime + i * (clickDuration + pauseDuration);
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(pattern.freq[0] + Math.random() * (pattern.freq[1] - pattern.freq[0]), startTime);
+        
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.2, startTime + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + clickDuration);
+        
+        osc.start(startTime);
+        osc.stop(startTime + clickDuration);
+        currentOscillators.push(osc);
+    }
+}
+
+function generateSilentSound(ctx, pattern) {
+    // For silent animals, create a very quiet ambient tone
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0.01, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
