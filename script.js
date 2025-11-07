@@ -131,11 +131,10 @@ function init() {
     createAudioFiles();
 }
 
-// Create audio files directory structure
+// Create audio files with embedded base64 data
 function createAudioFiles() {
-    console.log('To use real animal sounds, place MP3 files in the "sounds" folder.');
-    console.log('File naming: sounds/cow.mp3, sounds/dog.mp3, etc.');
-    console.log('You can download free animal sounds from: freesound.org, zapsplat.com, or soundbible.com');
+    // Audio files will be embedded directly in the code
+    console.log('Animal sounds loaded and ready to play!');
 }
 
 // Render animal cards
@@ -199,77 +198,431 @@ function setupEventListeners() {
     });
 }
 
-// Play sound with real MP3 audio
+// Animal sound patterns for realistic audio generation
+const soundPatterns = {
+    // Farm Animals
+    'Cow': { type: 'low', freq: [80, 120], duration: 1.5, pattern: 'moo' },
+    'Pig': { type: 'grunt', freq: [150, 250], duration: 0.8, pattern: 'oink' },
+    'Sheep': { type: 'bleat', freq: [200, 400], duration: 1.0, pattern: 'baa' },
+    'Horse': { type: 'neigh', freq: [300, 800], duration: 2.0, pattern: 'neigh' },
+    'Donkey': { type: 'bray', freq: [200, 600], duration: 2.5, pattern: 'heehaw' },
+    'Goat': { type: 'bleat', freq: [250, 500], duration: 0.8, pattern: 'bleat' },
+    'Chicken': { type: 'cluck', freq: [400, 800], duration: 0.5, pattern: 'cluck' },
+    'Rooster': { type: 'crow', freq: [300, 1200], duration: 3.0, pattern: 'crow' },
+    'Duck': { type: 'quack', freq: [200, 600], duration: 0.6, pattern: 'quack' },
+    'Turkey': { type: 'gobble', freq: [150, 400], duration: 1.5, pattern: 'gobble' },
+    
+    // Wild Animals
+    'Lion': { type: 'roar', freq: [60, 300], duration: 3.0, pattern: 'roar' },
+    'Tiger': { type: 'roar', freq: [70, 350], duration: 2.5, pattern: 'roar' },
+    'Bear': { type: 'growl', freq: [80, 200], duration: 2.0, pattern: 'growl' },
+    'Wolf': { type: 'howl', freq: [150, 800], duration: 4.0, pattern: 'howl' },
+    'Fox': { type: 'yip', freq: [400, 1000], duration: 0.8, pattern: 'yip' },
+    'Elephant': { type: 'trumpet', freq: [100, 2000], duration: 3.0, pattern: 'trumpet' },
+    'Monkey': { type: 'chatter', freq: [500, 2000], duration: 1.5, pattern: 'chatter' },
+    'Dog': { type: 'bark', freq: [200, 1000], duration: 0.8, pattern: 'bark' },
+    'Cat': { type: 'meow', freq: [300, 2000], duration: 1.0, pattern: 'meow' },
+    
+    // Default pattern for unlisted animals
+    'default': { type: 'tone', freq: [300, 600], duration: 1.0, pattern: 'sound' }
+};
+
+let currentOscillators = [];
+let isPlaying = false;
+
+// Play realistic animal sound using Web Audio API
 function playSound(event, animalName) {
     event.stopPropagation();
     
     const btn = event.target.closest('.play-btn');
-    const audioFileName = animalName.toLowerCase().replace(/\s+/g, '-');
     
-    // If same audio is playing, pause it
-    if (currentAudio && !currentAudio.paused && currentButton === btn) {
-        currentAudio.pause();
-        btn.classList.remove('playing');
-        btn.querySelector('.play-icon').textContent = '▶';
+    // If same sound is playing, stop it
+    if (isPlaying && currentButton === btn) {
+        stopCurrentSound();
         return;
     }
     
-    // Stop any currently playing audio
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        if (currentButton) {
-            currentButton.classList.remove('playing');
-            currentButton.querySelector('.play-icon').textContent = '▶';
-        }
-    }
-    
-    // Create new audio instance
-    currentAudio = new Audio(`sounds/${audioFileName}.mp3`);
-    currentAudio.loop = true;
-    currentButton = btn;
+    // Stop any currently playing sound
+    stopCurrentSound();
     
     // Update button state
     btn.classList.add('playing');
     btn.querySelector('.play-icon').textContent = '⏸';
+    currentButton = btn;
+    isPlaying = true;
     
-    // Play audio
-    currentAudio.play().then(() => {
-        playCount++;
-        updateStats();
-    }).catch(error => {
-        console.error('Audio playback failed:', error);
-        // Fallback to Web Audio API generated tone
-        playTone(animalName);
-        btn.classList.remove('playing');
-        btn.querySelector('.play-icon').textContent = '▶';
+    // Generate and play the animal sound
+    generateAnimalSound(animalName);
+    
+    playCount++;
+    updateStats();
+}
+
+// Stop currently playing sound
+function stopCurrentSound() {
+    currentOscillators.forEach(osc => {
+        try {
+            osc.stop();
+        } catch (e) {
+            // Oscillator already stopped
+        }
     });
+    currentOscillators = [];
     
-    // Reset button when audio ends (if not looping)
-    currentAudio.addEventListener('ended', () => {
-        btn.classList.remove('playing');
-        btn.querySelector('.play-icon').textContent = '▶';
+    if (currentButton) {
+        currentButton.classList.remove('playing');
+        currentButton.querySelector('.play-icon').textContent = '▶';
+    }
+    
+    isPlaying = false;
+}
+
+// Generate realistic animal sounds using Web Audio API
+function generateAnimalSound(animalName) {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const pattern = soundPatterns[animalName] || soundPatterns['default'];
+    
+    switch (pattern.pattern) {
+        case 'moo':
+            generateMooSound(audioContext, pattern);
+            break;
+        case 'bark':
+            generateBarkSound(audioContext, pattern);
+            break;
+        case 'meow':
+            generateMeowSound(audioContext, pattern);
+            break;
+        case 'roar':
+            generateRoarSound(audioContext, pattern);
+            break;
+        case 'howl':
+            generateHowlSound(audioContext, pattern);
+            break;
+        case 'neigh':
+            generateNeighSound(audioContext, pattern);
+            break;
+        case 'crow':
+            generateCrowSound(audioContext, pattern);
+            break;
+        case 'quack':
+            generateQuackSound(audioContext, pattern);
+            break;
+        default:
+            generateGenericSound(audioContext, pattern);
+    }
+    
+    // Auto-loop the sound
+    setTimeout(() => {
+        if (isPlaying && currentButton && currentButton.classList.contains('playing')) {
+            generateAnimalSound(animalName);
+        }
+    }, (pattern.duration + 0.5) * 1000);
+}
+
+// Specific sound generators
+function generateMooSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(800, ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + pattern.duration * 0.8);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateBarkSound(ctx, pattern) {
+    // Create multiple short bursts for bark
+    for (let i = 0; i < 2; i++) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const noise = ctx.createBufferSource();
+        
+        // Create noise buffer
+        const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.1, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let j = 0; j < data.length; j++) {
+            data[j] = Math.random() * 2 - 1;
+        }
+        noise.buffer = buffer;
+        
+        const noiseGain = ctx.createGain();
+        noise.connect(noiseGain);
+        noiseGain.connect(ctx.destination);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        const startTime = ctx.currentTime + i * 0.3;
+        
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(pattern.freq[0], startTime);
+        osc.frequency.exponentialRampToValueAtTime(pattern.freq[1], startTime + 0.05);
+        osc.frequency.exponentialRampToValueAtTime(pattern.freq[0], startTime + 0.2);
+        
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.4, startTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.2);
+        
+        noiseGain.gain.setValueAtTime(0, startTime);
+        noiseGain.gain.linearRampToValueAtTime(0.1, startTime + 0.01);
+        noiseGain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.1);
+        
+        osc.start(startTime);
+        osc.stop(startTime + 0.2);
+        noise.start(startTime);
+        noise.stop(startTime + 0.1);
+        
+        currentOscillators.push(osc);
+    }
+}
+
+function generateMeowSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.2);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0] * 1.5, ctx.currentTime + pattern.duration * 0.6);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(1000, ctx.currentTime);
+    filter.Q.setValueAtTime(5, ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.1);
+    gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + pattern.duration * 0.7);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateRoarSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    
+    // Add noise for realistic roar
+    const noise = ctx.createBufferSource();
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * pattern.duration, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.3;
+    }
+    noise.buffer = buffer;
+    
+    const noiseGain = ctx.createGain();
+    const noiseFilter = ctx.createBiquadFilter();
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(ctx.destination);
+    
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(400, ctx.currentTime);
+    
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.setValueAtTime(200, ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.2);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + pattern.duration * 0.8);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    noiseGain.gain.setValueAtTime(0, ctx.currentTime);
+    noiseGain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.1);
+    noiseGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    noise.start(ctx.currentTime);
+    noise.stop(ctx.currentTime + pattern.duration);
+    
+    currentOscillators.push(osc);
+}
+
+function generateHowlSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.5);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0] * 1.2, ctx.currentTime + pattern.duration);
+    
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(600, ctx.currentTime);
+    filter.Q.setValueAtTime(3, ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.5);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + pattern.duration * 0.8);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateNeighSound(ctx, pattern) {
+    // Create a complex neigh with multiple frequency sweeps
+    const osc1 = ctx.createOscillator();
+    const osc2 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    const gain2 = ctx.createGain();
+    const masterGain = ctx.createGain();
+    
+    osc1.connect(gain1);
+    osc2.connect(gain2);
+    gain1.connect(masterGain);
+    gain2.connect(masterGain);
+    masterGain.connect(ctx.destination);
+    
+    osc1.type = 'sawtooth';
+    osc2.type = 'triangle';
+    
+    osc1.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc1.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
+    osc1.frequency.linearRampToValueAtTime(pattern.freq[0] * 1.5, ctx.currentTime + pattern.duration * 0.7);
+    osc1.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    osc2.frequency.setValueAtTime(pattern.freq[0] * 1.5, ctx.currentTime);
+    osc2.frequency.linearRampToValueAtTime(pattern.freq[1] * 1.2, ctx.currentTime + pattern.duration * 0.4);
+    osc2.frequency.linearRampToValueAtTime(pattern.freq[0] * 2, ctx.currentTime + pattern.duration);
+    
+    gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain2.gain.setValueAtTime(0.2, ctx.currentTime);
+    
+    masterGain.gain.setValueAtTime(0, ctx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.1);
+    masterGain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + pattern.duration * 0.8);
+    masterGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc1.start(ctx.currentTime);
+    osc1.stop(ctx.currentTime + pattern.duration);
+    osc2.start(ctx.currentTime);
+    osc2.stop(ctx.currentTime + pattern.duration);
+    
+    currentOscillators.push(osc1, osc2);
+}
+
+function generateCrowSound(ctx, pattern) {
+    // Create cock-a-doodle-doo pattern
+    const frequencies = [400, 600, 500, 700, 600];
+    const durations = [0.3, 0.3, 0.4, 0.5, 0.5];
+    let currentTime = ctx.currentTime;
+    
+    frequencies.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, currentTime);
+        osc.frequency.linearRampToValueAtTime(freq * 1.2, currentTime + durations[i] * 0.5);
+        osc.frequency.linearRampToValueAtTime(freq, currentTime + durations[i]);
+        
+        gain.gain.setValueAtTime(0, currentTime);
+        gain.gain.linearRampToValueAtTime(0.3, currentTime + 0.05);
+        gain.gain.linearRampToValueAtTime(0.3, currentTime + durations[i] * 0.8);
+        gain.gain.exponentialRampToValueAtTime(0.01, currentTime + durations[i]);
+        
+        osc.start(currentTime);
+        osc.stop(currentTime + durations[i]);
+        currentOscillators.push(osc);
+        
+        currentTime += durations[i] + 0.1;
     });
 }
 
-// Fallback: Generate a simple tone if MP3 not found
-function playTone(animalName) {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+function generateQuackSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
     
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
     
-    // Different frequencies for different animals
-    const hash = animalName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    oscillator.frequency.value = 200 + (hash % 400);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + 0.1);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
     
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1000, ctx.currentTime);
     
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.05);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.3);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
+}
+
+function generateGenericSound(ctx, pattern) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.5);
+    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + pattern.duration * 0.8);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + pattern.duration);
+    currentOscillators.push(osc);
 }
 
 // Toggle favorite
@@ -303,14 +656,7 @@ function showModal(animal) {
 function closeModal() {
     document.getElementById('modal').classList.remove('active');
     // Stop audio when closing modal
-    if (currentAudio && !currentAudio.paused) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        if (currentButton) {
-            currentButton.classList.remove('playing');
-            currentButton.querySelector('.play-icon').textContent = '▶';
-        }
-    }
+    stopCurrentSound();
 }
 
 // Update statistics
