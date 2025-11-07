@@ -197,123 +197,123 @@ function setupEventListeners() {
     });
 }
 
-// Animal sound patterns for realistic audio generation
+// Comprehensive animal sound patterns - each animal has unique characteristics
 const soundPatterns = {
-    // Farm Animals
-    'Cow': { type: 'low', freq: [80, 120], duration: 1.5, pattern: 'moo' },
-    'Pig': { type: 'grunt', freq: [150, 250], duration: 0.8, pattern: 'oink' },
-    'Sheep': { type: 'bleat', freq: [200, 400], duration: 1.0, pattern: 'baa' },
-    'Horse': { type: 'neigh', freq: [300, 800], duration: 2.0, pattern: 'neigh' },
-    'Donkey': { type: 'bray', freq: [200, 600], duration: 2.5, pattern: 'heehaw' },
-    'Goat': { type: 'bleat', freq: [250, 500], duration: 0.8, pattern: 'bleat' },
-    'Chicken': { type: 'cluck', freq: [400, 800], duration: 0.5, pattern: 'cluck' },
-    'Rooster': { type: 'crow', freq: [300, 1200], duration: 3.0, pattern: 'crow' },
-    'Duck': { type: 'quack', freq: [200, 600], duration: 0.6, pattern: 'quack' },
-    'Turkey': { type: 'gobble', freq: [150, 400], duration: 1.5, pattern: 'gobble' },
+    // Farm Animals - Each with distinct vocal patterns
+    'Cow': { freq: [85, 120], duration: 2.2, pattern: 'cow_moo', harmonics: [1, 0.5, 0.3], vibrato: 3 },
+    'Pig': { freq: [180, 280], duration: 1.1, pattern: 'pig_oink', harmonics: [1, 0.7, 0.4], snort: true },
+    'Sheep': { freq: [220, 450], duration: 1.3, pattern: 'sheep_baa', harmonics: [1, 0.6, 0.2], tremolo: 8 },
+    'Horse': { freq: [280, 850], duration: 2.8, pattern: 'horse_neigh', harmonics: [1, 0.8, 0.5, 0.3], sweep: true },
+    'Donkey': { freq: [200, 650], duration: 3.2, pattern: 'donkey_bray', harmonics: [1, 0.9, 0.6], alternating: true },
+    'Goat': { freq: [280, 520], duration: 0.9, pattern: 'goat_bleat', harmonics: [1, 0.5, 0.3], warble: 12 },
+    'Chicken': { freq: [450, 850], duration: 0.4, pattern: 'chicken_cluck', harmonics: [1, 0.4, 0.2], staccato: true },
+    'Rooster': { freq: [350, 1400], duration: 4.5, pattern: 'rooster_crow', harmonics: [1, 0.7, 0.4, 0.2], sequence: true },
+    'Duck': { freq: [180, 650], duration: 0.7, pattern: 'duck_quack', harmonics: [1, 0.6, 0.3], nasal: true },
+    'Turkey': { freq: [120, 450], duration: 2.1, pattern: 'turkey_gobble', harmonics: [1, 0.8, 0.5], warble: 15 },
     
-    // Wild Animals
-    'Lion': { type: 'roar', freq: [60, 300], duration: 3.0, pattern: 'roar' },
-    'Tiger': { type: 'roar', freq: [70, 350], duration: 2.5, pattern: 'roar' },
-    'Bear': { type: 'growl', freq: [80, 200], duration: 2.0, pattern: 'growl' },
-    'Wolf': { type: 'howl', freq: [150, 800], duration: 4.0, pattern: 'howl' },
-    'Fox': { type: 'yip', freq: [400, 1000], duration: 0.8, pattern: 'yip' },
-    'Elephant': { type: 'trumpet', freq: [100, 2000], duration: 3.0, pattern: 'trumpet' },
-    'Monkey': { type: 'chatter', freq: [500, 2000], duration: 1.5, pattern: 'chatter' },
-    'Gorilla': { type: 'grunt', freq: [100, 300], duration: 1.2, pattern: 'grunt' },
-    'Zebra': { type: 'bray', freq: [250, 700], duration: 2.0, pattern: 'bray' },
-    'Giraffe': { type: 'hum', freq: [80, 200], duration: 2.5, pattern: 'hum' },
-    'Rhino': { type: 'snort', freq: [120, 400], duration: 1.0, pattern: 'snort' },
-    'Hippo': { type: 'grunt', freq: [90, 250], duration: 1.8, pattern: 'grunt' },
-    'Deer': { type: 'bleat', freq: [300, 600], duration: 1.0, pattern: 'bleat' },
-    'Camel': { type: 'grunt', freq: [150, 350], duration: 1.5, pattern: 'grunt' },
-    'Kangaroo': { type: 'chortle', freq: [200, 500], duration: 1.2, pattern: 'chortle' },
-    'Koala': { type: 'grunt', freq: [180, 400], duration: 1.0, pattern: 'grunt' },
-    'Panda': { type: 'bleat', freq: [200, 450], duration: 1.3, pattern: 'bleat' },
-    'Sloth': { type: 'whistle', freq: [800, 1200], duration: 2.0, pattern: 'whistle' },
-    'Raccoon': { type: 'chitter', freq: [400, 800], duration: 1.0, pattern: 'chitter' },
-    'Skunk': { type: 'hiss', freq: [2000, 4000], duration: 1.5, pattern: 'hiss' },
-    'Cheetah': { type: 'chirp', freq: [800, 1500], duration: 0.8, pattern: 'chirp' },
-    'Leopard': { type: 'growl', freq: [90, 300], duration: 2.0, pattern: 'growl' },
-    'Jaguar': { type: 'roar', freq: [80, 400], duration: 2.5, pattern: 'roar' },
-    'Hyena': { type: 'laugh', freq: [300, 1000], duration: 2.0, pattern: 'laugh' },
-    'Bat': { type: 'screech', freq: [3000, 8000], duration: 0.5, pattern: 'screech' },
-    'Squirrel': { type: 'chatter', freq: [800, 2000], duration: 1.0, pattern: 'chatter' },
-    'Chipmunk': { type: 'chip', freq: [1000, 2500], duration: 0.6, pattern: 'chip' },
-    'Beaver': { type: 'grunt', freq: [200, 400], duration: 1.0, pattern: 'grunt' },
-    'Moose': { type: 'bellow', freq: [100, 500], duration: 3.0, pattern: 'bellow' },
-    'Bison': { type: 'grunt', freq: [120, 300], duration: 1.5, pattern: 'grunt' },
-    'Llama': { type: 'hum', freq: [150, 400], duration: 1.8, pattern: 'hum' },
-    'Armadillo': { type: 'grunt', freq: [200, 350], duration: 0.8, pattern: 'grunt' },
-    'Porcupine': { type: 'grunt', freq: [180, 400], duration: 1.0, pattern: 'grunt' },
-    'Badger': { type: 'growl', freq: [150, 400], duration: 1.5, pattern: 'growl' },
-    'Weasel': { type: 'squeak', freq: [800, 1500], duration: 0.5, pattern: 'squeak' },
-    'Meerkat': { type: 'bark', freq: [400, 1000], duration: 0.6, pattern: 'bark' },
+    // Wild Animals - Unique predator and herbivore sounds
+    'Lion': { freq: [50, 350], duration: 4.2, pattern: 'lion_roar', harmonics: [1, 0.9, 0.7, 0.5], rumble: true },
+    'Tiger': { freq: [60, 380], duration: 3.8, pattern: 'tiger_roar', harmonics: [1, 0.8, 0.6, 0.4], chuff: true },
+    'Bear': { freq: [70, 220], duration: 2.5, pattern: 'bear_growl', harmonics: [1, 0.7, 0.5], rumble: true },
+    'Wolf': { freq: [120, 900], duration: 5.5, pattern: 'wolf_howl', harmonics: [1, 0.6, 0.4, 0.2], lonesome: true },
+    'Fox': { freq: [450, 1200], duration: 0.9, pattern: 'fox_yip', harmonics: [1, 0.5, 0.3], sharp: true },
+    'Elephant': { freq: [80, 2500], duration: 4.0, pattern: 'elephant_trumpet', harmonics: [1, 0.8, 0.6, 0.4], trunk: true },
+    'Monkey': { freq: [600, 2200], duration: 1.8, pattern: 'monkey_chatter', harmonics: [1, 0.6, 0.4], rapid: true },
+    'Gorilla': { freq: [90, 350], duration: 1.5, pattern: 'gorilla_grunt', harmonics: [1, 0.8, 0.5], chest: true },
+    'Zebra': { freq: [280, 750], duration: 2.3, pattern: 'zebra_bray', harmonics: [1, 0.7, 0.4], horse_like: true },
+    'Giraffe': { freq: [70, 250], duration: 3.2, pattern: 'giraffe_hum', harmonics: [1, 0.6, 0.3], infrasonic: true },
+    'Rhino': { freq: [100, 450], duration: 1.2, pattern: 'rhino_snort', harmonics: [1, 0.7, 0.4], explosive: true },
+    'Hippo': { freq: [80, 280], duration: 2.1, pattern: 'hippo_grunt', harmonics: [1, 0.8, 0.6], underwater: true },
+    'Deer': { freq: [350, 650], duration: 1.1, pattern: 'deer_bleat', harmonics: [1, 0.5, 0.2], gentle: true },
+    'Camel': { freq: [140, 380], duration: 1.8, pattern: 'camel_grunt', harmonics: [1, 0.6, 0.4], desert: true },
+    'Kangaroo': { freq: [180, 550], duration: 1.4, pattern: 'kangaroo_chortle', harmonics: [1, 0.5, 0.3], bouncy: true },
+    'Koala': { freq: [160, 420], duration: 1.2, pattern: 'koala_grunt', harmonics: [1, 0.6, 0.3], sleepy: true },
+    'Panda': { freq: [180, 480], duration: 1.5, pattern: 'panda_bleat', harmonics: [1, 0.5, 0.3], bamboo: true },
+    'Sloth': { freq: [900, 1300], duration: 2.8, pattern: 'sloth_whistle', harmonics: [1, 0.4, 0.2], slow: true },
+    'Raccoon': { freq: [450, 900], duration: 1.2, pattern: 'raccoon_chitter', harmonics: [1, 0.6, 0.4], mischief: true },
+    'Skunk': { freq: [2200, 4500], duration: 1.8, pattern: 'skunk_hiss', harmonics: [1, 0.3, 0.1], warning: true },
+    'Cheetah': { freq: [900, 1600], duration: 0.9, pattern: 'cheetah_chirp', harmonics: [1, 0.5, 0.3], bird_like: true },
+    'Leopard': { freq: [80, 320], duration: 2.2, pattern: 'leopard_growl', harmonics: [1, 0.7, 0.5], stealth: true },
+    'Jaguar': { freq: [70, 420], duration: 2.8, pattern: 'jaguar_roar', harmonics: [1, 0.8, 0.6], powerful: true },
+    'Hyena': { freq: [350, 1100], duration: 2.5, pattern: 'hyena_laugh', harmonics: [1, 0.6, 0.4], maniacal: true },
+    'Bat': { freq: [3500, 9000], duration: 0.4, pattern: 'bat_screech', harmonics: [1, 0.3, 0.1], ultrasonic: true },
+    'Squirrel': { freq: [900, 2200], duration: 1.1, pattern: 'squirrel_chatter', harmonics: [1, 0.5, 0.3], nutty: true },
+    'Chipmunk': { freq: [1200, 2800], duration: 0.7, pattern: 'chipmunk_chip', harmonics: [1, 0.4, 0.2], high_pitched: true },
+    'Beaver': { freq: [180, 450], duration: 1.2, pattern: 'beaver_grunt', harmonics: [1, 0.6, 0.4], woody: true },
+    'Moose': { freq: [90, 550], duration: 3.5, pattern: 'moose_bellow', harmonics: [1, 0.8, 0.6], majestic: true },
+    'Bison': { freq: [110, 320], duration: 1.8, pattern: 'bison_grunt', harmonics: [1, 0.7, 0.5], prairie: true },
+    'Llama': { freq: [140, 420], duration: 2.1, pattern: 'llama_hum', harmonics: [1, 0.6, 0.4], andean: true },
+    'Armadillo': { freq: [220, 380], duration: 0.9, pattern: 'armadillo_grunt', harmonics: [1, 0.5, 0.3], armored: true },
+    'Porcupine': { freq: [160, 420], duration: 1.1, pattern: 'porcupine_grunt', harmonics: [1, 0.6, 0.3], spiky: true },
+    'Badger': { freq: [130, 420], duration: 1.7, pattern: 'badger_growl', harmonics: [1, 0.7, 0.5], fierce: true },
+    'Weasel': { freq: [900, 1700], duration: 0.6, pattern: 'weasel_squeak', harmonics: [1, 0.4, 0.2], quick: true },
+    'Meerkat': { freq: [450, 1100], duration: 0.7, pattern: 'meerkat_bark', harmonics: [1, 0.5, 0.3], alert: true },
     
-    // Birds
-    'Eagle': { type: 'screech', freq: [1000, 3000], duration: 2.0, pattern: 'screech' },
-    'Owl': { type: 'hoot', freq: [200, 600], duration: 1.5, pattern: 'hoot' },
-    'Parrot': { type: 'squawk', freq: [500, 2000], duration: 1.0, pattern: 'squawk' },
-    'Peacock': { type: 'scream', freq: [800, 2500], duration: 2.5, pattern: 'scream' },
-    'Flamingo': { type: 'honk', freq: [300, 800], duration: 1.2, pattern: 'honk' },
-    'Penguin': { type: 'bray', freq: [200, 600], duration: 1.5, pattern: 'bray' },
-    'Swan': { type: 'trumpet', freq: [400, 1200], duration: 2.0, pattern: 'trumpet' },
-    'Dove': { type: 'coo', freq: [300, 800], duration: 1.8, pattern: 'coo' },
-    'Crow': { type: 'caw', freq: [400, 1000], duration: 1.0, pattern: 'caw' },
-    'Woodpecker': { type: 'tap', freq: [1000, 3000], duration: 1.5, pattern: 'tap' },
-    'Hummingbird': { type: 'chirp', freq: [2000, 5000], duration: 0.3, pattern: 'chirp' },
-    'Seagull': { type: 'squawk', freq: [600, 1500], duration: 1.2, pattern: 'squawk' },
-    'Canary': { type: 'sing', freq: [1000, 3000], duration: 2.0, pattern: 'sing' },
-    'Sparrow': { type: 'chirp', freq: [800, 2000], duration: 0.8, pattern: 'chirp' },
-    'Robin': { type: 'chirp', freq: [1200, 2500], duration: 1.0, pattern: 'chirp' },
-    'Emu': { type: 'boom', freq: [50, 200], duration: 2.0, pattern: 'boom' },
-    'Ostrich': { type: 'boom', freq: [60, 250], duration: 2.5, pattern: 'boom' },
+    // Birds - Each species with unique song patterns
+    'Eagle': { freq: [1100, 3200], duration: 2.3, pattern: 'eagle_screech', harmonics: [1, 0.6, 0.3], soaring: true },
+    'Owl': { freq: [180, 650], duration: 1.8, pattern: 'owl_hoot', harmonics: [1, 0.7, 0.4], nocturnal: true },
+    'Parrot': { freq: [550, 2200], duration: 1.2, pattern: 'parrot_squawk', harmonics: [1, 0.6, 0.4], tropical: true },
+    'Peacock': { freq: [900, 2800], duration: 3.2, pattern: 'peacock_scream', harmonics: [1, 0.7, 0.5], regal: true },
+    'Flamingo': { freq: [320, 900], duration: 1.4, pattern: 'flamingo_honk', harmonics: [1, 0.6, 0.3], pink: true },
+    'Penguin': { freq: [180, 650], duration: 1.7, pattern: 'penguin_bray', harmonics: [1, 0.6, 0.4], antarctic: true },
+    'Swan': { freq: [420, 1300], duration: 2.4, pattern: 'swan_trumpet', harmonics: [1, 0.7, 0.5], elegant: true },
+    'Dove': { freq: [280, 850], duration: 2.1, pattern: 'dove_coo', harmonics: [1, 0.6, 0.3], peaceful: true },
+    'Crow': { freq: [450, 1100], duration: 1.1, pattern: 'crow_caw', harmonics: [1, 0.5, 0.3], intelligent: true },
+    'Woodpecker': { freq: [1200, 3500], duration: 1.8, pattern: 'woodpecker_tap', harmonics: [1, 0.4, 0.2], percussive: true },
+    'Hummingbird': { freq: [2200, 5500], duration: 0.4, pattern: 'hummingbird_chirp', harmonics: [1, 0.3, 0.1], tiny: true },
+    'Seagull': { freq: [650, 1700], duration: 1.4, pattern: 'seagull_squawk', harmonics: [1, 0.5, 0.3], coastal: true },
+    'Canary': { freq: [1100, 3200], duration: 2.3, pattern: 'canary_sing', harmonics: [1, 0.6, 0.4], melodic: true },
+    'Sparrow': { freq: [900, 2200], duration: 0.9, pattern: 'sparrow_chirp', harmonics: [1, 0.5, 0.3], common: true },
+    'Robin': { freq: [1300, 2800], duration: 1.2, pattern: 'robin_chirp', harmonics: [1, 0.6, 0.4], spring: true },
+    'Emu': { freq: [40, 220], duration: 2.3, pattern: 'emu_boom', harmonics: [1, 0.8, 0.6], deep: true },
+    'Ostrich': { freq: [50, 280], duration: 2.8, pattern: 'ostrich_boom', harmonics: [1, 0.8, 0.6], giant: true },
     
-    // Aquatic Animals
-    'Dolphin': { type: 'click', freq: [2000, 8000], duration: 1.0, pattern: 'click' },
-    'Whale': { type: 'song', freq: [20, 2000], duration: 5.0, pattern: 'song' },
-    'Shark': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Octopus': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Fish': { type: 'bubble', freq: [200, 800], duration: 0.8, pattern: 'bubble' },
-    'Seal': { type: 'bark', freq: [300, 1000], duration: 1.2, pattern: 'bark' },
-    'Otter': { type: 'chirp', freq: [800, 2000], duration: 1.0, pattern: 'chirp' },
-    'Crab': { type: 'click', freq: [1000, 3000], duration: 0.5, pattern: 'click' },
-    'Lobster': { type: 'click', freq: [800, 2000], duration: 0.6, pattern: 'click' },
-    'Shrimp': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Jellyfish': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Turtle': { type: 'hiss', freq: [1000, 3000], duration: 1.0, pattern: 'hiss' },
-    'Frog': { type: 'ribbit', freq: [200, 1000], duration: 1.2, pattern: 'ribbit' },
-    'Crocodile': { type: 'hiss', freq: [500, 2000], duration: 2.0, pattern: 'hiss' },
+    // Aquatic Animals - Water-adapted vocalizations
+    'Dolphin': { freq: [2200, 8500], duration: 1.2, pattern: 'dolphin_click', harmonics: [1, 0.4, 0.2], echolocation: true },
+    'Whale': { freq: [15, 2200], duration: 6.5, pattern: 'whale_song', harmonics: [1, 0.8, 0.6, 0.4], oceanic: true },
+    'Shark': { freq: [80, 180], duration: 0.2, pattern: 'shark_silent', harmonics: [1, 0.1], predator: true },
+    'Octopus': { freq: [90, 200], duration: 0.2, pattern: 'octopus_silent', harmonics: [1, 0.1], intelligent: true },
+    'Fish': { freq: [180, 850], duration: 0.9, pattern: 'fish_bubble', harmonics: [1, 0.3, 0.1], aquatic: true },
+    'Seal': { freq: [320, 1100], duration: 1.4, pattern: 'seal_bark', harmonics: [1, 0.6, 0.4], marine: true },
+    'Otter': { freq: [900, 2200], duration: 1.1, pattern: 'otter_chirp', harmonics: [1, 0.5, 0.3], playful: true },
+    'Crab': { freq: [1100, 3200], duration: 0.6, pattern: 'crab_click', harmonics: [1, 0.3, 0.1], claws: true },
+    'Lobster': { freq: [900, 2200], duration: 0.7, pattern: 'lobster_click', harmonics: [1, 0.3, 0.1], crustacean: true },
+    'Shrimp': { freq: [100, 220], duration: 0.2, pattern: 'shrimp_silent', harmonics: [1, 0.1], tiny: true },
+    'Jellyfish': { freq: [90, 200], duration: 0.2, pattern: 'jellyfish_silent', harmonics: [1, 0.1], gelatinous: true },
+    'Turtle': { freq: [1100, 3200], duration: 1.2, pattern: 'turtle_hiss', harmonics: [1, 0.4, 0.2], ancient: true },
+    'Frog': { freq: [180, 1100], duration: 1.4, pattern: 'frog_ribbit', harmonics: [1, 0.6, 0.3], amphibian: true },
+    'Crocodile': { freq: [550, 2200], duration: 2.3, pattern: 'crocodile_hiss', harmonics: [1, 0.5, 0.3], reptilian: true },
     
-    // Insects
-    'Bee': { type: 'buzz', freq: [200, 400], duration: 2.0, pattern: 'buzz' },
-    'Butterfly': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Ant': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Ladybug': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Spider': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Mosquito': { type: 'whine', freq: [400, 800], duration: 1.5, pattern: 'whine' },
-    'Fly': { type: 'buzz', freq: [150, 300], duration: 1.0, pattern: 'buzz' },
-    'Cricket': { type: 'chirp', freq: [3000, 5000], duration: 2.0, pattern: 'cricket' },
-    'Grasshopper': { type: 'chirp', freq: [2000, 4000], duration: 1.5, pattern: 'cricket' },
-    'Dragonfly': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Beetle': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Moth': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
-    'Wasp': { type: 'buzz', freq: [250, 500], duration: 1.2, pattern: 'buzz' },
-    'Firefly': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    // Insects - High-frequency wing and body sounds
+    'Bee': { freq: [180, 420], duration: 2.5, pattern: 'bee_buzz', harmonics: [1, 0.6, 0.4], wings: true },
+    'Butterfly': { freq: [110, 250], duration: 0.2, pattern: 'butterfly_silent', harmonics: [1, 0.1], delicate: true },
+    'Ant': { freq: [100, 220], duration: 0.2, pattern: 'ant_silent', harmonics: [1, 0.1], colony: true },
+    'Ladybug': { freq: [90, 200], duration: 0.2, pattern: 'ladybug_silent', harmonics: [1, 0.1], beneficial: true },
+    'Spider': { freq: [80, 180], duration: 0.2, pattern: 'spider_silent', harmonics: [1, 0.1], web: true },
+    'Mosquito': { freq: [420, 900], duration: 1.8, pattern: 'mosquito_whine', harmonics: [1, 0.4, 0.2], annoying: true },
+    'Fly': { freq: [130, 320], duration: 1.2, pattern: 'fly_buzz', harmonics: [1, 0.5, 0.3], common: true },
+    'Cricket': { freq: [3200, 5500], duration: 2.2, pattern: 'cricket_chirp', harmonics: [1, 0.4, 0.2], night: true },
+    'Grasshopper': { freq: [2200, 4500], duration: 1.7, pattern: 'grasshopper_chirp', harmonics: [1, 0.4, 0.2], jumping: true },
+    'Dragonfly': { freq: [100, 220], duration: 0.2, pattern: 'dragonfly_silent', harmonics: [1, 0.1], aerial: true },
+    'Beetle': { freq: [90, 200], duration: 0.2, pattern: 'beetle_silent', harmonics: [1, 0.1], hard_shell: true },
+    'Moth': { freq: [80, 180], duration: 0.2, pattern: 'moth_silent', harmonics: [1, 0.1], nocturnal: true },
+    'Wasp': { freq: [280, 550], duration: 1.4, pattern: 'wasp_buzz', harmonics: [1, 0.5, 0.3], aggressive: true },
+    'Firefly': { freq: [70, 160], duration: 0.2, pattern: 'firefly_silent', harmonics: [1, 0.1], glowing: true },
     
-    // Pets
-    'Dog': { type: 'bark', freq: [200, 1000], duration: 0.8, pattern: 'bark' },
-    'Cat': { type: 'meow', freq: [300, 2000], duration: 1.0, pattern: 'meow' },
-    'Rabbit': { type: 'squeak', freq: [800, 1500], duration: 0.5, pattern: 'squeak' },
-    'Hamster': { type: 'squeak', freq: [1000, 2000], duration: 0.4, pattern: 'squeak' },
-    'Guinea Pig': { type: 'wheek', freq: [800, 2000], duration: 1.0, pattern: 'wheek' },
-    'Mouse': { type: 'squeak', freq: [1500, 3000], duration: 0.3, pattern: 'squeak' },
-    'Rat': { type: 'squeak', freq: [1200, 2500], duration: 0.4, pattern: 'squeak' },
-    'Ferret': { type: 'dook', freq: [400, 1000], duration: 0.8, pattern: 'dook' },
-    'Hedgehog': { type: 'snuffle', freq: [200, 800], duration: 1.0, pattern: 'snuffle' },
-    'Goldfish': { type: 'silent', freq: [100, 200], duration: 0.1, pattern: 'silent' },
+    // Pets - Domesticated animal sounds
+    'Dog': { freq: [180, 1100], duration: 0.9, pattern: 'dog_bark', harmonics: [1, 0.6, 0.4], loyal: true },
+    'Cat': { freq: [280, 2200], duration: 1.2, pattern: 'cat_meow', harmonics: [1, 0.7, 0.5], independent: true },
+    'Rabbit': { freq: [900, 1700], duration: 0.6, pattern: 'rabbit_squeak', harmonics: [1, 0.4, 0.2], gentle: true },
+    'Hamster': { freq: [1100, 2200], duration: 0.5, pattern: 'hamster_squeak', harmonics: [1, 0.4, 0.2], small: true },
+    'Guinea Pig': { freq: [900, 2200], duration: 1.2, pattern: 'guinea_pig_wheek', harmonics: [1, 0.5, 0.3], social: true },
+    'Mouse': { freq: [1700, 3200], duration: 0.4, pattern: 'mouse_squeak', harmonics: [1, 0.3, 0.1], tiny: true },
+    'Rat': { freq: [1300, 2800], duration: 0.5, pattern: 'rat_squeak', harmonics: [1, 0.4, 0.2], intelligent: true },
+    'Ferret': { freq: [420, 1100], duration: 0.9, pattern: 'ferret_dook', harmonics: [1, 0.5, 0.3], playful: true },
+    'Hedgehog': { freq: [180, 900], duration: 1.2, pattern: 'hedgehog_snuffle', harmonics: [1, 0.5, 0.3], spiny: true },
+    'Goldfish': { freq: [80, 180], duration: 0.2, pattern: 'goldfish_silent', harmonics: [1, 0.1], aquarium: true },
     
-    // Default pattern for unlisted animals
-    'default': { type: 'tone', freq: [300, 600], duration: 1.0, pattern: 'sound' }
+    // Default fallback
+    'default': { freq: [300, 600], duration: 1.0, pattern: 'generic_sound', harmonics: [1, 0.5, 0.3] }
 };
 
 let currentOscillators = [];
@@ -371,61 +371,8 @@ function generateAnimalSound(animalName) {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const pattern = soundPatterns[animalName] || soundPatterns['default'];
     
-    switch (pattern.pattern) {
-        case 'moo':
-            generateMooSound(audioContext, pattern);
-            break;
-        case 'bark':
-            generateBarkSound(audioContext, pattern);
-            break;
-        case 'meow':
-            generateMeowSound(audioContext, pattern);
-            break;
-        case 'roar':
-            generateRoarSound(audioContext, pattern);
-            break;
-        case 'howl':
-            generateHowlSound(audioContext, pattern);
-            break;
-        case 'neigh':
-            generateNeighSound(audioContext, pattern);
-            break;
-        case 'crow':
-            generateCrowSound(audioContext, pattern);
-            break;
-        case 'quack':
-            generateQuackSound(audioContext, pattern);
-            break;
-        case 'buzz':
-            generateBuzzSound(audioContext, pattern);
-            break;
-        case 'chirp':
-            generateChirpSound(audioContext, pattern);
-            break;
-        case 'hiss':
-            generateHissSound(audioContext, pattern);
-            break;
-        case 'cricket':
-            generateCricketSound(audioContext, pattern);
-            break;
-        case 'ribbit':
-            generateRibbitSound(audioContext, pattern);
-            break;
-        case 'hoot':
-            generateHootSound(audioContext, pattern);
-            break;
-        case 'squeak':
-            generateSqueakSound(audioContext, pattern);
-            break;
-        case 'click':
-            generateClickSound(audioContext, pattern);
-            break;
-        case 'silent':
-            generateSilentSound(audioContext, pattern);
-            break;
-        default:
-            generateGenericSound(audioContext, pattern);
-    }
+    // Generate unique sound based on pattern name
+    generateUniqueAnimalSound(audioContext, pattern);
     
     // Auto-loop the sound
     setTimeout(() => {
@@ -435,311 +382,458 @@ function generateAnimalSound(animalName) {
     }, (pattern.duration + 0.5) * 1000);
 }
 
-// Specific sound generators
-function generateMooSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
+// Universal sound generator that creates unique sounds for each animal
+function generateUniqueAnimalSound(ctx, pattern) {
+    const baseFreq = pattern.freq[0];
+    const topFreq = pattern.freq[1];
+    const duration = pattern.duration;
+    const harmonics = pattern.harmonics || [1, 0.5, 0.3];
     
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
+    // Create multiple oscillators for rich harmonic content
+    const oscillators = [];
+    const gains = [];
     
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
+    // Generate harmonics
+    harmonics.forEach((amplitude, index) => {
+        if (amplitude > 0.05) { // Only create audible harmonics
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const filter = ctx.createBiquadFilter();
+            
+            // Connect audio chain
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            
+            // Set oscillator type based on animal characteristics
+            osc.type = getOscillatorType(pattern.pattern);
+            
+            // Set frequency (fundamental + harmonics)
+            const harmonic = index + 1;
+            osc.frequency.setValueAtTime(baseFreq * harmonic, ctx.currentTime);
+            
+            // Apply frequency modulation based on animal type
+            applyFrequencyModulation(osc, pattern, ctx, harmonic);
+            
+            // Set filter characteristics
+            configureFilter(filter, pattern, harmonic);
+            
+            // Set amplitude envelope
+            configureAmplitudeEnvelope(gain, pattern, amplitude, ctx);
+            
+            // Apply special effects
+            applySpecialEffects(osc, gain, pattern, ctx, harmonic);
+            
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + duration);
+            
+            oscillators.push(osc);
+            gains.push(gain);
+        }
+    });
     
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(800, ctx.currentTime);
+    // Add noise component for certain animals
+    if (needsNoise(pattern.pattern)) {
+        addNoiseComponent(ctx, pattern);
+    }
     
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + pattern.duration * 0.8);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
+    currentOscillators.push(...oscillators);
 }
 
-function generateBarkSound(ctx, pattern) {
-    // Create multiple short bursts for bark
-    for (let i = 0; i < 2; i++) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        const noise = ctx.createBufferSource();
+// Get appropriate oscillator type for each animal
+function getOscillatorType(pattern) {
+    const waveforms = {
+        // Farm animals
+        'cow_moo': 'sawtooth',
+        'pig_oink': 'square',
+        'sheep_baa': 'triangle',
+        'horse_neigh': 'sawtooth',
+        'donkey_bray': 'sawtooth',
+        'goat_bleat': 'triangle',
+        'chicken_cluck': 'square',
+        'rooster_crow': 'triangle',
+        'duck_quack': 'square',
+        'turkey_gobble': 'sawtooth',
         
-        // Create noise buffer
-        const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.1, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let j = 0; j < data.length; j++) {
-            data[j] = Math.random() * 2 - 1;
-        }
-        noise.buffer = buffer;
+        // Wild animals
+        'lion_roar': 'sawtooth',
+        'tiger_roar': 'sawtooth',
+        'bear_growl': 'sawtooth',
+        'wolf_howl': 'sine',
+        'fox_yip': 'triangle',
+        'elephant_trumpet': 'sawtooth',
+        'monkey_chatter': 'square',
+        'gorilla_grunt': 'sawtooth',
+        'zebra_bray': 'sawtooth',
+        'giraffe_hum': 'sine',
+        'rhino_snort': 'square',
+        'hippo_grunt': 'sawtooth',
+        'deer_bleat': 'triangle',
+        'camel_grunt': 'sawtooth',
+        'kangaroo_chortle': 'triangle',
+        'koala_grunt': 'sawtooth',
+        'panda_bleat': 'triangle',
+        'sloth_whistle': 'sine',
+        'raccoon_chitter': 'square',
+        'skunk_hiss': 'square',
+        'cheetah_chirp': 'sine',
+        'leopard_growl': 'sawtooth',
+        'jaguar_roar': 'sawtooth',
+        'hyena_laugh': 'square',
+        'bat_screech': 'sine',
+        'squirrel_chatter': 'square',
+        'chipmunk_chip': 'sine',
+        'beaver_grunt': 'sawtooth',
+        'moose_bellow': 'sawtooth',
+        'bison_grunt': 'sawtooth',
+        'llama_hum': 'sine',
+        'armadillo_grunt': 'sawtooth',
+        'porcupine_grunt': 'sawtooth',
+        'badger_growl': 'sawtooth',
+        'weasel_squeak': 'sine',
+        'meerkat_bark': 'square',
         
-        const noiseGain = ctx.createGain();
-        noise.connect(noiseGain);
-        noiseGain.connect(ctx.destination);
+        // Birds
+        'eagle_screech': 'sine',
+        'owl_hoot': 'sine',
+        'parrot_squawk': 'square',
+        'peacock_scream': 'triangle',
+        'flamingo_honk': 'square',
+        'penguin_bray': 'sawtooth',
+        'swan_trumpet': 'triangle',
+        'dove_coo': 'sine',
+        'crow_caw': 'square',
+        'woodpecker_tap': 'square',
+        'hummingbird_chirp': 'sine',
+        'seagull_squawk': 'square',
+        'canary_sing': 'sine',
+        'sparrow_chirp': 'sine',
+        'robin_chirp': 'sine',
+        'emu_boom': 'sawtooth',
+        'ostrich_boom': 'sawtooth',
         
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+        // Aquatic
+        'dolphin_click': 'sine',
+        'whale_song': 'sine',
+        'shark_silent': 'sine',
+        'octopus_silent': 'sine',
+        'fish_bubble': 'sine',
+        'seal_bark': 'square',
+        'otter_chirp': 'sine',
+        'crab_click': 'square',
+        'lobster_click': 'square',
+        'turtle_hiss': 'square',
+        'frog_ribbit': 'square',
+        'crocodile_hiss': 'square',
         
-        const startTime = ctx.currentTime + i * 0.3;
+        // Insects
+        'bee_buzz': 'sawtooth',
+        'mosquito_whine': 'sine',
+        'fly_buzz': 'sawtooth',
+        'cricket_chirp': 'sine',
+        'grasshopper_chirp': 'sine',
+        'wasp_buzz': 'sawtooth',
         
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(pattern.freq[0], startTime);
-        osc.frequency.exponentialRampToValueAtTime(pattern.freq[1], startTime + 0.05);
-        osc.frequency.exponentialRampToValueAtTime(pattern.freq[0], startTime + 0.2);
-        
-        gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(0.4, startTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.2);
-        
-        noiseGain.gain.setValueAtTime(0, startTime);
-        noiseGain.gain.linearRampToValueAtTime(0.1, startTime + 0.01);
-        noiseGain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.1);
-        
-        osc.start(startTime);
-        osc.stop(startTime + 0.2);
-        noise.start(startTime);
-        noise.stop(startTime + 0.1);
-        
-        currentOscillators.push(osc);
+        // Pets
+        'dog_bark': 'square',
+        'cat_meow': 'triangle',
+        'rabbit_squeak': 'sine',
+        'hamster_squeak': 'sine',
+        'guinea_pig_wheek': 'triangle',
+        'mouse_squeak': 'sine',
+        'rat_squeak': 'sine',
+        'ferret_dook': 'triangle',
+        'hedgehog_snuffle': 'sawtooth'
+    };
+    
+    return waveforms[pattern] || 'sine';
+}
+
+// Apply frequency modulation based on animal characteristics
+function applyFrequencyModulation(osc, pattern, ctx, harmonic) {
+    const baseFreq = pattern.freq[0] * harmonic;
+    const topFreq = pattern.freq[1] * harmonic;
+    const duration = pattern.duration;
+    
+    switch (pattern.pattern) {
+        case 'cow_moo':
+            osc.frequency.linearRampToValueAtTime(topFreq * 0.8, ctx.currentTime + duration * 0.3);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'horse_neigh':
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.2);
+            osc.frequency.linearRampToValueAtTime(baseFreq * 1.5, ctx.currentTime + duration * 0.6);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'donkey_bray':
+            // Alternating high-low pattern
+            for (let i = 0; i < 3; i++) {
+                const segmentStart = ctx.currentTime + (duration / 3) * i;
+                const segmentEnd = ctx.currentTime + (duration / 3) * (i + 1);
+                if (i % 2 === 0) {
+                    osc.frequency.linearRampToValueAtTime(topFreq, segmentEnd);
+                } else {
+                    osc.frequency.linearRampToValueAtTime(baseFreq, segmentEnd);
+                }
+            }
+            break;
+            
+        case 'rooster_crow':
+            // Cock-a-doodle-doo pattern
+            const segments = [1.2, 1.5, 1.0, 1.8, 1.3];
+            let currentTime = ctx.currentTime;
+            segments.forEach((multiplier, i) => {
+                const segmentDuration = duration / segments.length;
+                osc.frequency.setValueAtTime(baseFreq * multiplier, currentTime);
+                currentTime += segmentDuration;
+            });
+            break;
+            
+        case 'wolf_howl':
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.4);
+            osc.frequency.linearRampToValueAtTime(baseFreq * 1.3, ctx.currentTime + duration * 0.8);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'elephant_trumpet':
+            osc.frequency.exponentialRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.3);
+            osc.frequency.exponentialRampToValueAtTime(baseFreq * 2, ctx.currentTime + duration * 0.7);
+            osc.frequency.exponentialRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'lion_roar':
+        case 'tiger_roar':
+        case 'jaguar_roar':
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.3);
+            osc.frequency.linearRampToValueAtTime(baseFreq * 0.8, ctx.currentTime + duration * 0.7);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'cat_meow':
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.2);
+            osc.frequency.linearRampToValueAtTime(baseFreq * 1.5, ctx.currentTime + duration * 0.6);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'dog_bark':
+            // Sharp attack, quick decay
+            osc.frequency.exponentialRampToValueAtTime(topFreq, ctx.currentTime + 0.05);
+            osc.frequency.exponentialRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'frog_ribbit':
+            // Two-part ribbit
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.3);
+            osc.frequency.setValueAtTime(baseFreq, ctx.currentTime + duration * 0.5);
+            osc.frequency.linearRampToValueAtTime(topFreq * 0.8, ctx.currentTime + duration * 0.8);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'owl_hoot':
+            // Hoo-hoo pattern
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.25);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration * 0.45);
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.7);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
+            break;
+            
+        case 'whale_song':
+            // Complex melodic pattern
+            const notes = [1, 1.3, 0.8, 1.6, 1.1, 0.9, 1.4];
+            let time = ctx.currentTime;
+            notes.forEach(multiplier => {
+                osc.frequency.linearRampToValueAtTime(baseFreq * multiplier, time);
+                time += duration / notes.length;
+            });
+            break;
+            
+        case 'cricket_chirp':
+        case 'grasshopper_chirp':
+            // Rapid chirping pattern
+            for (let i = 0; i < 8; i++) {
+                const chirpStart = ctx.currentTime + (duration / 8) * i;
+                const chirpEnd = chirpStart + (duration / 16);
+                osc.frequency.setValueAtTime(baseFreq, chirpStart);
+                osc.frequency.linearRampToValueAtTime(topFreq, chirpEnd);
+            }
+            break;
+            
+        default:
+            // Default frequency sweep
+            osc.frequency.linearRampToValueAtTime(topFreq, ctx.currentTime + duration * 0.5);
+            osc.frequency.linearRampToValueAtTime(baseFreq, ctx.currentTime + duration);
     }
 }
 
-function generateMeowSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
+// Configure filter for each animal type
+function configureFilter(filter, pattern, harmonic) {
+    const filterConfigs = {
+        'cow_moo': { type: 'lowpass', freq: 800, q: 1 },
+        'pig_oink': { type: 'bandpass', freq: 600, q: 2 },
+        'lion_roar': { type: 'lowpass', freq: 400, q: 1 },
+        'wolf_howl': { type: 'bandpass', freq: 800, q: 3 },
+        'cat_meow': { type: 'bandpass', freq: 1200, q: 5 },
+        'dog_bark': { type: 'highpass', freq: 300, q: 1 },
+        'owl_hoot': { type: 'lowpass', freq: 600, q: 2 },
+        'duck_quack': { type: 'lowpass', freq: 1000, q: 1 },
+        'frog_ribbit': { type: 'bandpass', freq: 800, q: 2 },
+        'bee_buzz': { type: 'bandpass', freq: 300, q: 1 },
+        'cricket_chirp': { type: 'highpass', freq: 2000, q: 1 },
+        'whale_song': { type: 'lowpass', freq: 1000, q: 2 }
+    };
     
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
+    const config = filterConfigs[pattern.pattern] || { type: 'lowpass', freq: 1000, q: 1 };
     
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.2);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0] * 1.5, ctx.currentTime + pattern.duration * 0.6);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(1000, ctx.currentTime);
-    filter.Q.setValueAtTime(5, ctx.currentTime);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.1);
-    gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + pattern.duration * 0.7);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
+    filter.type = config.type;
+    filter.frequency.setValueAtTime(config.freq / harmonic, 0);
+    filter.Q.setValueAtTime(config.q, 0);
 }
 
-function generateRoarSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
+// Configure amplitude envelope for natural sound shaping
+function configureAmplitudeEnvelope(gain, pattern, amplitude, ctx) {
+    const duration = pattern.duration;
+    const maxGain = amplitude * 0.4; // Prevent clipping
     
-    // Add noise for realistic roar
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    
+    switch (pattern.pattern) {
+        case 'dog_bark':
+        case 'chicken_cluck':
+        case 'crab_click':
+            // Sharp attack, quick decay
+            gain.gain.linearRampToValueAtTime(maxGain, ctx.currentTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+            break;
+            
+        case 'cow_moo':
+        case 'lion_roar':
+        case 'whale_song':
+            // Slow attack, sustained, slow decay
+            gain.gain.linearRampToValueAtTime(maxGain, ctx.currentTime + duration * 0.2);
+            gain.gain.setValueAtTime(maxGain, ctx.currentTime + duration * 0.8);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+            break;
+            
+        case 'owl_hoot':
+            // Hoo-hoo pattern
+            gain.gain.linearRampToValueAtTime(maxGain, ctx.currentTime + duration * 0.1);
+            gain.gain.linearRampToValueAtTime(maxGain * 0.3, ctx.currentTime + duration * 0.4);
+            gain.gain.linearRampToValueAtTime(maxGain, ctx.currentTime + duration * 0.6);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+            break;
+            
+        case 'cricket_chirp':
+        case 'grasshopper_chirp':
+            // Pulsing pattern
+            for (let i = 0; i < 8; i++) {
+                const pulseStart = ctx.currentTime + (duration / 8) * i;
+                const pulseEnd = pulseStart + (duration / 16);
+                gain.gain.linearRampToValueAtTime(maxGain, pulseStart + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, pulseEnd);
+            }
+            break;
+            
+        default:
+            // Standard envelope
+            gain.gain.linearRampToValueAtTime(maxGain, ctx.currentTime + duration * 0.1);
+            gain.gain.setValueAtTime(maxGain, ctx.currentTime + duration * 0.7);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+    }
+}
+
+// Apply special effects like vibrato, tremolo, etc.
+function applySpecialEffects(osc, gain, pattern, ctx, harmonic) {
+    // Add vibrato for certain animals
+    if (pattern.vibrato && harmonic === 1) {
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+        
+        lfo.frequency.setValueAtTime(pattern.vibrato, ctx.currentTime);
+        lfoGain.gain.setValueAtTime(pattern.freq[0] * 0.05, ctx.currentTime);
+        
+        lfo.start(ctx.currentTime);
+        lfo.stop(ctx.currentTime + pattern.duration);
+        
+        currentOscillators.push(lfo);
+    }
+    
+    // Add tremolo for certain animals
+    if (pattern.tremolo && harmonic === 1) {
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        
+        lfo.connect(lfoGain);
+        lfoGain.connect(gain.gain);
+        
+        lfo.frequency.setValueAtTime(pattern.tremolo, ctx.currentTime);
+        lfoGain.gain.setValueAtTime(0.3, ctx.currentTime);
+        
+        lfo.start(ctx.currentTime);
+        lfo.stop(ctx.currentTime + pattern.duration);
+        
+        currentOscillators.push(lfo);
+    }
+}
+
+// Check if animal needs noise component
+function needsNoise(pattern) {
+    const noiseAnimals = [
+        'lion_roar', 'tiger_roar', 'bear_growl', 'jaguar_roar',
+        'skunk_hiss', 'crocodile_hiss', 'turtle_hiss',
+        'bee_buzz', 'fly_buzz', 'wasp_buzz', 'mosquito_whine'
+    ];
+    return noiseAnimals.includes(pattern);
+}
+
+// Add noise component for realistic texture
+function addNoiseComponent(ctx, pattern) {
     const noise = ctx.createBufferSource();
     const buffer = ctx.createBuffer(1, ctx.sampleRate * pattern.duration, ctx.sampleRate);
     const data = buffer.getChannelData(0);
+    
+    // Generate filtered noise
     for (let i = 0; i < data.length; i++) {
-        data[i] = (Math.random() * 2 - 1) * 0.3;
+        data[i] = (Math.random() * 2 - 1) * 0.2;
     }
     noise.buffer = buffer;
     
-    const noiseGain = ctx.createGain();
     const noiseFilter = ctx.createBiquadFilter();
-    
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
+    const noiseGain = ctx.createGain();
     
     noise.connect(noiseFilter);
     noiseFilter.connect(noiseGain);
     noiseGain.connect(ctx.destination);
     
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(400, ctx.currentTime);
-    
-    noiseFilter.type = 'lowpass';
-    noiseFilter.frequency.setValueAtTime(200, ctx.currentTime);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.2);
-    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + pattern.duration * 0.8);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
+    // Configure noise filter based on animal
+    if (pattern.pattern.includes('roar') || pattern.pattern.includes('growl')) {
+        noiseFilter.type = 'lowpass';
+        noiseFilter.frequency.setValueAtTime(200, ctx.currentTime);
+    } else if (pattern.pattern.includes('hiss')) {
+        noiseFilter.type = 'highpass';
+        noiseFilter.frequency.setValueAtTime(1000, ctx.currentTime);
+    } else {
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.setValueAtTime(400, ctx.currentTime);
+    }
     
     noiseGain.gain.setValueAtTime(0, ctx.currentTime);
-    noiseGain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.1);
+    noiseGain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.1);
     noiseGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
     
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
     noise.start(ctx.currentTime);
     noise.stop(ctx.currentTime + pattern.duration);
-    
-    currentOscillators.push(osc);
 }
 
-function generateHowlSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.5);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0] * 1.2, ctx.currentTime + pattern.duration);
-    
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(600, ctx.currentTime);
-    filter.Q.setValueAtTime(3, ctx.currentTime);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.5);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + pattern.duration * 0.8);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
 
-function generateNeighSound(ctx, pattern) {
-    // Create a complex neigh with multiple frequency sweeps
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    const gain2 = ctx.createGain();
-    const masterGain = ctx.createGain();
-    
-    osc1.connect(gain1);
-    osc2.connect(gain2);
-    gain1.connect(masterGain);
-    gain2.connect(masterGain);
-    masterGain.connect(ctx.destination);
-    
-    osc1.type = 'sawtooth';
-    osc2.type = 'triangle';
-    
-    osc1.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc1.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
-    osc1.frequency.linearRampToValueAtTime(pattern.freq[0] * 1.5, ctx.currentTime + pattern.duration * 0.7);
-    osc1.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    osc2.frequency.setValueAtTime(pattern.freq[0] * 1.5, ctx.currentTime);
-    osc2.frequency.linearRampToValueAtTime(pattern.freq[1] * 1.2, ctx.currentTime + pattern.duration * 0.4);
-    osc2.frequency.linearRampToValueAtTime(pattern.freq[0] * 2, ctx.currentTime + pattern.duration);
-    
-    gain1.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain2.gain.setValueAtTime(0.2, ctx.currentTime);
-    
-    masterGain.gain.setValueAtTime(0, ctx.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.1);
-    masterGain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + pattern.duration * 0.8);
-    masterGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc1.start(ctx.currentTime);
-    osc1.stop(ctx.currentTime + pattern.duration);
-    osc2.start(ctx.currentTime);
-    osc2.stop(ctx.currentTime + pattern.duration);
-    
-    currentOscillators.push(osc1, osc2);
-}
 
-function generateCrowSound(ctx, pattern) {
-    // Create cock-a-doodle-doo pattern
-    const frequencies = [400, 600, 500, 700, 600];
-    const durations = [0.3, 0.3, 0.4, 0.5, 0.5];
-    let currentTime = ctx.currentTime;
-    
-    frequencies.forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, currentTime);
-        osc.frequency.linearRampToValueAtTime(freq * 1.2, currentTime + durations[i] * 0.5);
-        osc.frequency.linearRampToValueAtTime(freq, currentTime + durations[i]);
-        
-        gain.gain.setValueAtTime(0, currentTime);
-        gain.gain.linearRampToValueAtTime(0.3, currentTime + 0.05);
-        gain.gain.linearRampToValueAtTime(0.3, currentTime + durations[i] * 0.8);
-        gain.gain.exponentialRampToValueAtTime(0.01, currentTime + durations[i]);
-        
-        osc.start(currentTime);
-        osc.stop(currentTime + durations[i]);
-        currentOscillators.push(osc);
-        
-        currentTime += durations[i] + 0.1;
-    });
-}
 
-function generateQuackSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + 0.1);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1000, ctx.currentTime);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.05);
-    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.3);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
 
-function generateGenericSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.5);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + pattern.duration * 0.8);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
+
 
 // Toggle favorite
 function toggleFavorite(event, name) {
@@ -784,247 +878,3 @@ function updateStats() {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', init);
-
-// Additional sound generators
-function generateBuzzSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.1);
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration * 0.2);
-    
-    // Add vibrato for realistic buzz
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
-    lfo.connect(lfoGain);
-    lfoGain.connect(osc.frequency);
-    lfo.frequency.setValueAtTime(30, ctx.currentTime);
-    lfoGain.gain.setValueAtTime(20, ctx.currentTime);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.1);
-    gain.gain.setValueAtTime(0.2, ctx.currentTime + pattern.duration * 0.9);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    lfo.start(ctx.currentTime);
-    lfo.stop(ctx.currentTime + pattern.duration);
-    
-    currentOscillators.push(osc, lfo);
-}
-
-function generateChirpSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pattern.freq[1], ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
-
-function generateHissSound(ctx, pattern) {
-    const noise = ctx.createBufferSource();
-    const buffer = ctx.createBuffer(1, ctx.sampleRate * pattern.duration, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    
-    for (let i = 0; i < data.length; i++) {
-        data[i] = Math.random() * 2 - 1;
-    }
-    noise.buffer = buffer;
-    
-    const filter = ctx.createBiquadFilter();
-    const gain = ctx.createGain();
-    
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    
-    filter.type = 'highpass';
-    filter.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    filter.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    noise.start(ctx.currentTime);
-    noise.stop(ctx.currentTime + pattern.duration);
-}
-
-function generateCricketSound(ctx, pattern) {
-    // Create rapid chirping pattern
-    const chirpCount = 8;
-    const chirpDuration = 0.05;
-    const pauseDuration = 0.1;
-    
-    for (let i = 0; i < chirpCount; i++) {
-        const startTime = ctx.currentTime + i * (chirpDuration + pauseDuration);
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(pattern.freq[0], startTime);
-        osc.frequency.linearRampToValueAtTime(pattern.freq[1], startTime + chirpDuration);
-        
-        gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(0.2, startTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.01, startTime + chirpDuration);
-        
-        osc.start(startTime);
-        osc.stop(startTime + chirpDuration);
-        currentOscillators.push(osc);
-    }
-}
-
-function generateRibbitSound(ctx, pattern) {
-    // Create two-part ribbit sound
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    const gain2 = ctx.createGain();
-    
-    osc1.connect(gain1);
-    osc2.connect(gain2);
-    gain1.connect(ctx.destination);
-    gain2.connect(ctx.destination);
-    
-    // First part: "rib"
-    osc1.type = 'square';
-    osc1.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc1.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + 0.2);
-    
-    gain1.gain.setValueAtTime(0, ctx.currentTime);
-    gain1.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
-    gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
-    
-    // Second part: "bit"
-    osc2.type = 'square';
-    osc2.frequency.setValueAtTime(pattern.freq[1], ctx.currentTime + 0.4);
-    osc2.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    gain2.gain.setValueAtTime(0, ctx.currentTime + 0.4);
-    gain2.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.45);
-    gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc1.start(ctx.currentTime);
-    osc1.stop(ctx.currentTime + 0.3);
-    osc2.start(ctx.currentTime + 0.4);
-    osc2.stop(ctx.currentTime + pattern.duration);
-    
-    currentOscillators.push(osc1, osc2);
-}
-
-function generateHootSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[1], ctx.currentTime + pattern.duration * 0.3);
-    osc.frequency.linearRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(800, ctx.currentTime);
-    
-    // Create "hoo-hoo" pattern
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.1);
-    gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + pattern.duration * 0.4);
-    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + pattern.duration * 0.6);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
-
-function generateSqueakSound(ctx, pattern) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pattern.freq[1], ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(pattern.freq[0], ctx.currentTime + pattern.duration);
-    
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
-
-function generateClickSound(ctx, pattern) {
-    // Create rapid clicking pattern
-    const clickCount = 5;
-    const clickDuration = 0.02;
-    const pauseDuration = 0.05;
-    
-    for (let i = 0; i < clickCount; i++) {
-        const startTime = ctx.currentTime + i * (clickDuration + pauseDuration);
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(pattern.freq[0] + Math.random() * (pattern.freq[1] - pattern.freq[0]), startTime);
-        
-        gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(0.2, startTime + 0.005);
-        gain.gain.exponentialRampToValueAtTime(0.01, startTime + clickDuration);
-        
-        osc.start(startTime);
-        osc.stop(startTime + clickDuration);
-        currentOscillators.push(osc);
-    }
-}
-
-function generateSilentSound(ctx, pattern) {
-    // For silent animals, create a very quiet ambient tone
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(pattern.freq[0], ctx.currentTime);
-    
-    gain.gain.setValueAtTime(0.01, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + pattern.duration);
-    
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + pattern.duration);
-    currentOscillators.push(osc);
-}
