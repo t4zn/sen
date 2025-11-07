@@ -5,94 +5,46 @@
 }
 
 :root {
-    --primary: #6366f1;
-    --secondary: #8b5cf6;
-    --accent: #ec4899;
-    --text-dark: #1e293b;
-    --text-light: #64748b;
-    --bg-light: #f8fafc;
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.3);
-    --shadow: rgba(0, 0, 0, 0.1);
+    --primary: #000000;
+    --secondary: #333333;
+    --accent: #666666;
+    --text-dark: #000000;
+    --text-light: #666666;
+    --bg-light: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --shadow: rgba(0, 0, 0, 0.05);
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    background: #f5f5f5;
     min-height: 100vh;
     color: var(--text-dark);
     overflow-x: hidden;
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 .background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.background-animation::before,
-.background-animation::after {
-    content: '';
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    animation: float 20s infinite;
-}
-
-.background-animation::before {
-    top: -250px;
-    left: -250px;
-    animation-delay: 0s;
-}
-
-.background-animation::after {
-    bottom: -250px;
-    right: -250px;
-    animation-delay: 10s;
-}
-
-@keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(100px, -100px) scale(1.1); }
-    66% { transform: translate(-100px, 100px) scale(0.9); }
+    display: none;
 }
 
 .glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: white;
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px var(--shadow);
+    box-shadow: 0 2px 8px var(--shadow);
 }
 
 .glass-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: white;
     border-bottom: 1px solid var(--glass-border);
     padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 24px var(--shadow);
+    box-shadow: 0 1px 3px var(--shadow);
 }
 
 .logo {
@@ -114,10 +66,7 @@ body {
 .logo h1 {
     font-size: 1.75rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
 }
 
 .search-container {
@@ -131,17 +80,16 @@ body {
     padding: 0.875rem 3rem 0.875rem 1.25rem;
     border: 1px solid var(--glass-border);
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
+    background: #fafafa;
     font-size: 1rem;
     transition: all 0.3s ease;
     outline: none;
 }
 
 .glass-input:focus {
-    background: rgba(255, 255, 255, 0.8);
+    background: white;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
 }
 
 .search-icon {
@@ -190,10 +138,7 @@ body {
 .stat-number {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
 }
 
 .stat-label {
@@ -229,11 +174,11 @@ body {
 
 .tab-btn {
     padding: 0.75rem 1.5rem;
-    border: none;
+    border: 1px solid var(--glass-border);
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.5);
+    background: white;
     color: var(--text-dark);
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -241,14 +186,14 @@ body {
 }
 
 .tab-btn:hover {
-    background: rgba(255, 255, 255, 0.8);
-    transform: translateY(-2px);
+    background: #fafafa;
+    transform: translateY(-1px);
 }
 
 .tab-btn.active {
     background: var(--primary);
     color: white;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    border-color: var(--primary);
 }
 
 .animal-grid {
@@ -268,11 +213,9 @@ body {
 }
 
 .animal-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: white;
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -292,33 +235,18 @@ body {
     }
 }
 
-.animal-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
 .animal-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px var(--shadow);
-}
-
-.animal-card:hover::before {
-    opacity: 1;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px var(--shadow);
+    border-color: var(--secondary);
 }
 
 .favorite-btn {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
+    background: #fafafa;
+    border: 1px solid var(--glass-border);
     border-radius: 50%;
     width: 36px;
     height: 36px;
@@ -333,11 +261,12 @@ body {
 
 .favorite-btn:hover {
     transform: scale(1.1);
-    background: rgba(255, 255, 255, 1);
+    background: white;
 }
 
 .favorite-btn.active {
-    background: var(--accent);
+    background: var(--primary);
+    border-color: var(--primary);
 }
 
 .animal-icon {
@@ -370,11 +299,11 @@ body {
 .play-btn {
     width: 100%;
     padding: 0.75rem;
-    border: none;
-    border-radius: 12px;
+    border: 1px solid var(--primary);
+    border-radius: 8px;
     background: var(--primary);
     color: white;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
@@ -387,11 +316,20 @@ body {
 
 .play-btn:hover {
     background: var(--secondary);
-    transform: scale(1.05);
+    border-color: var(--secondary);
 }
 
 .play-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
+}
+
+.play-btn.playing {
+    background: white;
+    color: var(--primary);
+}
+
+.play-btn.playing .play-icon::before {
+    content: '⏸';
 }
 
 .play-icon {
@@ -405,8 +343,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -420,9 +357,10 @@ body {
 .modal-content {
     max-width: 500px;
     width: 90%;
-    border-radius: 30px;
+    border-radius: 16px;
     padding: 3rem;
     position: relative;
+    background: white;
     animation: modalSlideUp 0.4s ease;
 }
 
@@ -441,8 +379,8 @@ body {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
+    background: #fafafa;
+    border: 1px solid var(--glass-border);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -455,8 +393,9 @@ body {
 }
 
 .close-btn:hover {
-    background: var(--accent);
+    background: var(--primary);
     color: white;
+    border-color: var(--primary);
     transform: rotate(90deg);
 }
 
@@ -483,12 +422,12 @@ body {
 .play-btn-large {
     width: 100%;
     padding: 1.25rem;
-    border: none;
-    border-radius: 16px;
+    border: 1px solid var(--primary);
+    border-radius: 8px;
     background: var(--primary);
     color: white;
     font-size: 1.125rem;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -500,18 +439,28 @@ body {
 
 .play-btn-large:hover {
     background: var(--secondary);
-    transform: scale(1.05);
+    border-color: var(--secondary);
 }
 
 .play-btn-large:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
+}
+
+.play-btn-large.playing {
+    background: white;
+    color: var(--primary);
+}
+
+.play-btn-large.playing .play-icon::before {
+    content: '⏸';
 }
 
 .animal-info {
     text-align: left;
     padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 16px;
+    background: #fafafa;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
     font-size: 0.95rem;
     line-height: 1.6;
     color: var(--text-dark);

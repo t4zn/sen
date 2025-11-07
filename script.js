@@ -120,12 +120,22 @@ let playCount = 0;
 let favorites = new Set();
 let currentCategory = 'all';
 let searchQuery = '';
+let currentAudio = null;
+let currentButton = null;
 
 // Initialize the app
 function init() {
     renderAnimals();
     setupEventListeners();
     updateStats();
+    createAudioFiles();
+}
+
+// Create audio files directory structure
+function createAudioFiles() {
+    console.log('To use real animal sounds, place MP3 files in the "sounds" folder.');
+    console.log('File naming: sounds/cow.mp3, sounds/dog.mp3, etc.');
+    console.log('You can download free animal sounds from: freesound.org, zapsplat.com, or soundbible.com');
 }
 
 // Render animal cards
@@ -142,12 +152,12 @@ function renderAnimals() {
         <div class="animal-card" data-index="${animals.indexOf(animal)}" style="animation-delay: ${index * 0.05}s">
             <button class="favorite-btn ${favorites.has(animal.name) ? 'active' : ''}" 
                     onclick="toggleFavorite(event, '${animal.name}')">
-                ${favorites.has(animal.name) ? '❤️' : '🤍'}
+                ${favorites.has(animal.name) ? '🖤' : '🤍'}
             </button>
             <div class="animal-icon">${animal.icon}</div>
             <div class="animal-name">${animal.name}</div>
             <div class="animal-sound">"${animal.sound}"</div>
-            <button class="play-btn" onclick="playSound(event, '${animal.sound}')">
+            <button class="play-btn" onclick="playSound(event, '${animal.name}')">
                 <span class="play-icon">▶</span>
                 Play Sound
             </button>
@@ -189,27 +199,77 @@ function setupEventListeners() {
     });
 }
 
-// Play sound (text-to-speech simulation)
-function playSound(event, sound) {
+// Play sound with real MP3 audio
+function playSound(event, animalName) {
     event.stopPropagation();
-    playCount++;
-    updateStats();
     
-    // Visual feedback
     const btn = event.target.closest('.play-btn');
-    btn.style.transform = 'scale(0.95)';
-    setTimeout(() => btn.style.transform = '', 200);
+    const audioFileName = animalName.toLowerCase().replace(/\s+/g, '-');
     
-    // Use Web Speech API if available
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(sound);
-        utterance.rate = 0.8;
-        utterance.pitch = 1.2;
-        speechSynthesis.speak(utterance);
-    } else {
-        // Fallback: show alert
-        alert(`🔊 ${sound}!`);
+    // If same audio is playing, pause it
+    if (currentAudio && !currentAudio.paused && currentButton === btn) {
+        currentAudio.pause();
+        btn.classList.remove('playing');
+        btn.querySelector('.play-icon').textContent = '▶';
+        return;
     }
+    
+    // Stop any currently playing audio
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentButton) {
+            currentButton.classList.remove('playing');
+            currentButton.querySelector('.play-icon').textContent = '▶';
+        }
+    }
+    
+    // Create new audio instance
+    currentAudio = new Audio(`sounds/${audioFileName}.mp3`);
+    currentAudio.loop = true;
+    currentButton = btn;
+    
+    // Update button state
+    btn.classList.add('playing');
+    btn.querySelector('.play-icon').textContent = '⏸';
+    
+    // Play audio
+    currentAudio.play().then(() => {
+        playCount++;
+        updateStats();
+    }).catch(error => {
+        console.error('Audio playback failed:', error);
+        // Fallback to Web Audio API generated tone
+        playTone(animalName);
+        btn.classList.remove('playing');
+        btn.querySelector('.play-icon').textContent = '▶';
+    });
+    
+    // Reset button when audio ends (if not looping)
+    currentAudio.addEventListener('ended', () => {
+        btn.classList.remove('playing');
+        btn.querySelector('.play-icon').textContent = '▶';
+    });
+}
+
+// Fallback: Generate a simple tone if MP3 not found
+function playTone(animalName) {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Different frequencies for different animals
+    const hash = animalName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    oscillator.frequency.value = 200 + (hash % 400);
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
 }
 
 // Toggle favorite
@@ -236,12 +296,21 @@ function showModal(animal) {
     
     // Setup modal play button
     const playBtn = document.getElementById('modalPlayBtn');
-    playBtn.onclick = (e) => playSound(e, animal.sound);
+    playBtn.onclick = (e) => playSound(e, animal.name);
 }
 
 // Close modal
 function closeModal() {
     document.getElementById('modal').classList.remove('active');
+    // Stop audio when closing modal
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentButton) {
+            currentButton.classList.remove('playing');
+            currentButton.querySelector('.play-icon').textContent = '▶';
+        }
+    }
 }
 
 // Update statistics
